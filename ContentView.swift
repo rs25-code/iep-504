@@ -198,7 +198,7 @@ struct ContentView: View {
             case .dashboard:
                 DashboardScreen()
             case .upload:
-                UploadScreen()
+                PlaygroundsUploadScreen()
             case .analysis:
                 AnalysisScreen()
             case .qa:
