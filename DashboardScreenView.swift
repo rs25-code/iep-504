@@ -36,6 +36,7 @@ struct DashboardScreen: View {
                     //LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 12) {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 16) {
                         StatCard(title: "Active IEPs", value: "12", icon: "doc.text")
+                        StatCard(title: "Active 504s", value: "7", icon: "doc.text")
                         StatCard(title: "Meetings", value: "4", icon: "calendar")
                         StatCard(title: "Updates", value: "8", icon: "chart.line.uptrend.xyaxis")
                     }
@@ -49,7 +50,7 @@ struct DashboardScreen: View {
                             Button(action: { appState.navigate(to: .upload) }) {
                                 HStack {
                                     Image(systemName: "plus")
-                                    Text("Upload New IEP")
+                                    Text("Upload New Student Document")
                                     Spacer()
                                 }
                             }
@@ -67,7 +68,7 @@ struct DashboardScreen: View {
                     
                     // Recent IEPs
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("Recent IEPs")
+                        Text("Recent Documents")
                             .font(.headline)
                             .fontWeight(.semibold)
                         VStack(spacing: 12) {
