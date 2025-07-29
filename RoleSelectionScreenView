@@ -1,0 +1,42 @@
+import SwiftUI
+
+struct RoleSelectionScreen: View {
+    @EnvironmentObject var appState: AppState
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            HStack {
+                Button(action: { appState.navigate(to: .landing) }) {
+                    Image(systemName: "chevron.left")
+                        .font(.title2)
+                }
+                Text("Select Your Role")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                Spacer()
+            }
+            .padding()
+            .background(Color(.systemBackground))
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text("Choose your role to get personalized features and access")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 20)
+                    ForEach(UserRole.allCases, id: \.self) { role in
+                        RoleCard(role: role) {
+                            appState.userRole = role
+                            appState.navigate(to: .login)
+                        }
+                    }
+                }
+                .padding()
+            }
+            Text("You can change your role later in settings")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .padding()
+        }
+    }
+}
