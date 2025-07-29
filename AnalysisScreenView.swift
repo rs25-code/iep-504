@@ -12,10 +12,11 @@ struct AnalysisScreen: View {
                 Button(action: { appState.navigate(to: .dashboard) }) {
                     Image(systemName: "chevron.left")
                         .font(.title2)
+                        .foregroundColor(.orange)
                 }
                 
                 VStack(alignment: .leading) {
-                    Text("IEP Analysis")
+                    Text("Support Plan Analysis")
                         .font(.headline)
                         .fontWeight(.semibold)
                     Text(appState.currentIEP?.studentName ?? "Student")
@@ -26,10 +27,12 @@ struct AnalysisScreen: View {
                 HStack {
                     Button(action: {}) {
                         Image(systemName: "square.and.arrow.up")
+                            .foregroundColor(.orange)
                     }
                     
                     Button(action: {}) {
                         Image(systemName: "square.and.arrow.down")
+                            .foregroundColor(.orange)
                     }
                 }
             }
@@ -43,9 +46,9 @@ struct AnalysisScreen: View {
                         Text("\(appState.currentIEP?.overallScore ?? 85)%")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.orange)
                         
-                        Text("Overall IEP Quality Score")
+                        Text("Overall Support Plan Quality Score")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -75,14 +78,15 @@ struct AnalysisScreen: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
+            .accentColor(.orange)
             
             // Tab Content
             ScrollView {
                 switch selectedTab {
                 case 0:
                     SummaryTabView()
-                        .frame(maxWidth: 800) // Add this
-                        .frame(maxWidth: .infinity) // Add this
+                        .frame(maxWidth: 800)
+                        .frame(maxWidth: .infinity)
                 case 1:
                     GoalsTabView()
                 case 2:
@@ -107,7 +111,7 @@ struct AnalysisScreen: View {
                 .buttonStyle(SecondaryButtonStyle())
                 .disabled(isRegenerating)
                 
-                Button("Ask Questions About This IEP") {
+                Button("Ask Questions About This Document") {
                     appState.navigate(to: .qa)
                 }
                 .buttonStyle(PrimaryButtonStyle())
