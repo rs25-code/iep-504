@@ -9,15 +9,15 @@ struct LandingScreen: View {
             VStack(spacing: 16) {
                 Image(systemName: "doc.text.fill")
                     .font(.system(size: 60))
-                    .foregroundColor(.blue)
+                    .foregroundColor(.orange)
                     .padding(.top, 40)
                 
                 VStack(spacing: 8) {
-                    Text("IEP Analyzer")
+                    Text("SpectrumEdge")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(.blue)
-                    Text("AI-powered IEP analysis and support for students, parents, and educators")
+                        .foregroundColor(.orange)
+                    Text("AI-powered IEP and 504 plan analysis and support for students, parents, and educators")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -30,8 +30,8 @@ struct LandingScreen: View {
                 FeatureCard(
                     icon: "brain.head.profile",
                     title: "AI-Powered Analysis",
-                    description: "Get instant insights and summaries from IEP documents",
-                    color: .blue
+                    description: "Get instant insights and summaries from IEP and 504 documents",
+                    color: .orange
                 )
                 FeatureCard(
                     icon: "person.2.fill",
@@ -42,7 +42,7 @@ struct LandingScreen: View {
                 FeatureCard(
                     icon: "shield.fill",
                     title: "Secure & Private",
-                    description: "FERPA compliant with end-to-end encryption",
+                    description: "FERPA and IDEA compliant with end-to-end encryption",
                     color: .purple
                 )
             }
@@ -69,7 +69,7 @@ struct LandingScreen: View {
         }
         .background(
             LinearGradient(
-                colors: [Color.blue.opacity(0.1), Color.indigo.opacity(0.1)],
+                colors: [Color.orange.opacity(0.1), Color.orange.opacity(0.05)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
