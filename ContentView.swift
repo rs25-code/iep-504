@@ -19,9 +19,9 @@ enum UserRole: String, CaseIterable {
     
     var color: Color {
         switch self {
-        case .parent: return .red
-        case .teacher: return .blue
-        case .counselor: return .green
+        case .parent: return .orange
+        case .teacher: return .orange
+        case .counselor: return .orange
         }
     }
 }
@@ -164,28 +164,45 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            // Sidebar
-            List {
-                Button("Dashboard") {
-                    appState.navigate(to: .dashboard)
+            // Sidebar - only show when logged in and not on landing/role selection screens
+            if appState.isLoggedIn && appState.currentScreen != .landing && appState.currentScreen != .roleSelection {
+                List {
+                    Button("Dashboard") {
+                        appState.navigate(to: .dashboard)
+                    }
+                    .foregroundColor(appState.currentScreen == .dashboard ? .orange : .primary)
+                    
+                    Button("Upload") {
+                        appState.navigate(to: .upload)
+                    }
+                    .foregroundColor(appState.currentScreen == .upload ? .orange : .primary)
+                    
+                    Button("Analysis") {
+                        appState.navigate(to: .analysis)
+                    }
+                    .foregroundColor(appState.currentScreen == .analysis ? .orange : .primary)
+                    
+                    Button("Q&A") {
+                        appState.navigate(to: .qa)
+                    }
+                    .foregroundColor(appState.currentScreen == .qa ? .orange : .primary)
+                    
+                    Button("Settings") {
+                        appState.navigate(to: .settings)
+                    }
+                    .foregroundColor(appState.currentScreen == .settings ? .orange : .primary)
+                    
+                    Button("Profile") {
+                        appState.navigate(to: .profile)
+                    }
+                    .foregroundColor(appState.currentScreen == .profile ? .orange : .primary)
                 }
-                Button("Upload") {
-                    appState.navigate(to: .upload)
-                }
-                Button("Analysis") {
-                    appState.navigate(to: .analysis)
-                }
-                Button("Q&A") {
-                    appState.navigate(to: .qa)
-                }
-                Button("Settings") {
-                    appState.navigate(to: .settings)
-                }
-                Button("Profile") {
-                    appState.navigate(to: .profile)
-                }
+                .navigationTitle("SpectrumEdge")
+                .accentColor(.orange)
+            } else {
+                // Empty sidebar for landing/role selection screens
+                EmptyView()
             }
-            .navigationTitle("IEP Analyzer")
         } detail: {
             // Main content area
             switch appState.currentScreen {
@@ -210,5 +227,6 @@ struct ContentView: View {
             }
         }
         .environmentObject(appState)
+        .accentColor(.orange)
     }
 }
