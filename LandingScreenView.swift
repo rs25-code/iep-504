@@ -1,78 +1,108 @@
 import SwiftUI
 
-struct LandingScreen: View {
+struct LoginScreen: View {
     @EnvironmentObject var appState: AppState
+    @State private var email = ""
+    @State private var password = ""
+    @State private var showPassword = false
+    @State private var isLoading = false
     
     var body: some View {
         VStack(spacing: 0) {
             // Header
-            VStack(spacing: 16) {
-                Image(systemName: "doc.text.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.orange)
-                    .padding(.top, 40)
-                
-                VStack(spacing: 8) {
-                    Text("SpectrumEdge")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.orange)
-                    Text("AI-powered IEP and 504 plan analysis and support for students, parents, and educators")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
+            HStack {
+                Button(action: { appState.navigate(to: .roleSelection) }) {
+                    Image(systemName: "chevron.left")
+                        .font(.title2)
                 }
-            }
-            .padding(.bottom, 40)
-            // Features
-            VStack(spacing: 16) {
-                FeatureCard(
-                    icon: "brain.head.profile",
-                    title: "AI-Powered Analysis",
-                    description: "Get instant insights and summaries from IEP and 504 documents",
-                    color: .orange
-                )
-                FeatureCard(
-                    icon: "person.2.fill",
-                    title: "Collaborative Platform",
-                    description: "Connect parents, teachers, and counselors seamlessly",
-                    color: .green
-                )
-                FeatureCard(
-                    icon: "shield.fill",
-                    title: "Secure & Private",
-                    description: "FERPA and IDEA compliant with end-to-end encryption",
-                    color: .purple
-                )
-            }
-            .padding(.horizontal)
-            Spacer()
-            
-            // Action Buttons
-            VStack(spacing: 12) {
-                Button("Get Started") {
-                    appState.navigate(to: .roleSelection)
-                }
-                .buttonStyle(PrimaryButtonStyle())
-                Button("Sign In") {
-                    appState.navigate(to: .login)
-                }
-                .buttonStyle(SecondaryButtonStyle())
-                Button("🚀 Quick Demo (Skip to Dashboard)") {
-                    appState.login(as: .parent)
-                    appState.loadSampleIEP()
-                }
-                .buttonStyle(TertiaryButtonStyle())
+                Text("Sign In")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                Spacer()
             }
             .padding()
+            .background(Color(.systemBackground))
+            
+            ScrollView {
+                VStack(spacing: 24) {
+                    VStack(spacing: 16) {
+                        Text("Welcome back!")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                        if let role = appState.userRole {
+                            Text("Signing in as \(role.displayName)")
+                                .font(.subheadline)
+                                .foregroundColor(role.color)
+                        }
+                    }
+                    .padding(.top, 40)
+                    VStack(spacing: 20) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Email")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                            TextField("Enter your email", text: $email)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .keyboardType(.emailAddress)
+                                .autocapitalization(.none)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Password")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                            HStack {
+                                if showPassword {
+                                    TextField("Enter your password", text: $password)
+                                } else {
+                                    SecureField("Enter your password", text: $password)
+                                }
+                                Button(action: { showPassword.toggle() }) {
+                                    Image(systemName: showPassword ? "eye.slash" : "eye")
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                        Button(action: handleLogin) {
+                            HStack {
+                                if isLoading {
+                                    ProgressView()
+                                        .scaleEffect(0.8)
+                                }
+                                Text(isLoading ? "Signing in..." : "Sign In")
+                            }
+                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                        .disabled(email.isEmpty || password.isEmpty || isLoading)
+                        
+                        VStack(spacing: 8) {
+                            Button("Forgot password?") {
+                                // Handle forgot password
+                            }
+                            .font(.subheadline)
+                            HStack {
+                                Text("Don't have an account?")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                Button("Sign up") {
+                                    // Handle sign up
+                                }
+                                .font(.subheadline)
+                            }
+                        }
+                    }
+                }
+                .padding()
+            }
         }
-        .background(
-            LinearGradient(
-                colors: [Color.orange.opacity(0.1), Color.orange.opacity(0.05)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        )
+    }
+    
+    private func handleLogin() {
+        isLoading = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            isLoading = false
+            appState.login(as: appState.userRole ?? .parent)
+        }
     }
 }
