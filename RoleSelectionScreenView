@@ -27,7 +27,8 @@ struct RoleSelectionScreen: View {
                     ForEach(UserRole.allCases, id: \.self) { role in
                         RoleCard(role: role) {
                             appState.userRole = role
-                            appState.navigate(to: .login)
+                            // Skip login and go directly to dashboard
+                            appState.login(as: role)
                         }
                     }
                 }
