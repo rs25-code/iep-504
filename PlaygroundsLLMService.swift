@@ -77,7 +77,7 @@ class PlaygroundsLLMService: ObservableObject {
         
         // Overall assessment
         summary += "**📊 Overall Assessment:**\n"
-        summary += "This IEP demonstrates a comprehensive approach to supporting the student's educational needs with "
+        summary += "This report demonstrates a comprehensive approach to supporting the student's educational needs with "
         
         var components: [String] = []
         if hasGoals { components.append("measurable goals") }
@@ -100,7 +100,7 @@ class PlaygroundsLLMService: ObservableObject {
             if goals.isEmpty {
                 return "I can see this document discusses educational planning, but I'd need to look more closely at the specific goal sections to provide detailed information about the learning objectives."
             } else {
-                var response = "Based on the IEP document, I've identified \(goals.count) main educational goals:\n\n"
+                var response = "Based on the document, I've identified \(goals.count) main educational goals:\n\n"
                 for (index, goal) in goals.enumerated() {
                     response += "\(index + 1). \(goal)\n\n"
                 }
@@ -114,7 +114,7 @@ class PlaygroundsLLMService: ObservableObject {
             if services.isEmpty {
                 return "The document mentions educational services, but I'd need to examine the services section more carefully to provide specific details about frequency and providers."
             } else {
-                var response = "The IEP outlines the following special education services:\n\n"
+                var response = "The document outlines the following special education services:\n\n"
                 for service in services {
                     response += "• \(service)\n"
                 }
@@ -126,9 +126,9 @@ class PlaygroundsLLMService: ObservableObject {
         else if lowercased.contains("accommodation") || lowercased.contains("modification") {
             let accommodations = extractAccommodations(from: document)
             if accommodations.isEmpty {
-                return "The IEP should include accommodations to help the student access the curriculum. I'd need to review the accommodations section to provide specific details."
+                return "The plan should include accommodations to help the student access the curriculum. I'd need to review the accommodations section to provide specific details."
             } else {
-                var response = "The following accommodations are included in this IEP:\n\n"
+                var response = "The following accommodations are included in this document:\n\n"
                 for accommodation in accommodations {
                     response += "• \(accommodation)\n"
                 }
@@ -139,22 +139,22 @@ class PlaygroundsLLMService: ObservableObject {
         
         else if lowercased.contains("progress") || lowercased.contains("data") || lowercased.contains("monitor") {
             if docLowercased.contains("progress") {
-                return "Progress monitoring is essential for tracking the student's advancement toward IEP goals. Based on the document, progress appears to be tracked through regular assessments, data collection, and periodic reviews. This helps ensure the student is making appropriate progress and allows for adjustments if needed."
+                return "Progress monitoring is essential for tracking the student's advancement toward IEP or 504 goals. Based on the document, progress appears to be tracked through regular assessments, data collection, and periodic reviews. This helps ensure the student is making appropriate progress and allows for adjustments if needed."
             } else {
-                return "Progress monitoring should be clearly defined in the IEP, including how often data will be collected, what methods will be used, and how progress will be reported to parents."
+                return "Progress monitoring should be clearly defined in the IEP or 504 plan, including how often data will be collected, what methods will be used, and how progress will be reported to parents."
             }
         }
         
         else if lowercased.contains("parent") || lowercased.contains("home") || lowercased.contains("support") {
-            return "Parent involvement is crucial for IEP success. You can support your child at home by:\n\n• Reinforcing skills being taught at school\n• Maintaining consistent routines\n• Communicating regularly with the IEP team\n• Practicing IEP goals in natural settings\n• Celebrating progress and achievements\n\nConsider asking the team for specific home strategies that align with the school-based interventions."
+            return "Parent involvement is crucial for student's success. You can support your child at home by:\n\n• Reinforcing skills being taught at school\n• Maintaining consistent routines\n• Communicating regularly with the IEP team\n• Practicing IEP goals in natural settings\n• Celebrating progress and achievements\n\nConsider asking the team for specific home strategies that align with the school-based interventions."
         }
         
         else if lowercased.contains("meeting") || lowercased.contains("review") {
-            return "IEP meetings should occur at least annually, but can be called more frequently if needed. During meetings, the team reviews progress, discusses any concerns, and makes necessary adjustments to goals or services. As a parent/team member, you have the right to request meetings and provide input on all decisions."
+            return " Counselor meetings should occur at least annually, but can be called more frequently if needed. During meetings, the team reviews progress, discusses any concerns, and makes necessary adjustments to goals or services. As a parent/team member, you have the right to request meetings and provide input on all decisions."
         }
         
         else {
-            return "I can help you understand various aspects of this IEP document. Feel free to ask about specific topics like:\n\n• Educational goals and objectives\n• Special education services\n• Accommodations and modifications\n• Progress monitoring procedures\n• Home support strategies\n• Meeting schedules and procedures\n\nWhat specific aspect would you like to explore further?"
+            return "I can help you understand various aspects of this document. Feel free to ask about specific topics like:\n\n• Educational goals and objectives\n• Special education services\n• Accommodations and modifications\n• Progress monitoring procedures\n• Home support strategies\n• Meeting schedules and procedures\n\nWhat specific aspect would you like to explore further?"
         }
     }
     
