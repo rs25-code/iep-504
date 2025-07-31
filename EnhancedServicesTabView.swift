@@ -14,7 +14,7 @@ struct ServiceCategory {
 // MARK: - Service Summary View and Supporting Components
 struct ServiceSummaryView: View {
     let categories: [ServiceCategory]
-    @State private var showingView = true
+    @Environment(\.dismiss) private var dismiss  // Add this
     
     var totalCurrentServices: Int {
         categories.flatMap { $0.currentServices }.count
@@ -37,7 +37,7 @@ struct ServiceSummaryView: View {
             // Header
             HStack {
                 Button("Done") { 
-                    showingView = false 
+                    dismiss()  // Change this
                 }
                 .padding()
                 Spacer()
@@ -166,8 +166,6 @@ struct ServiceSummaryView: View {
                 .padding()
             }
         }
-        .opacity(showingView ? 1 : 0)
-        .animation(.easeInOut(duration: 0.3), value: showingView)
     }
 }
 
@@ -992,14 +990,14 @@ extension AdditionalNeed: Identifiable {}
 
 struct DetailedServiceView: View {
     let service: CurrentService
-    @State private var showingView = true
+    @Environment(\.dismiss) private var dismiss  // Add this
     
     var body: some View {
         VStack(spacing: 0) {
             // Header
             HStack {
                 Button("Done") { 
-                    showingView = false 
+                    dismiss()  // Change this
                 }
                 .padding()
                 Spacer()
@@ -1089,21 +1087,19 @@ struct DetailedServiceView: View {
                 .padding()
             }
         }
-        .opacity(showingView ? 1 : 0)
-        .animation(.easeInOut(duration: 0.3), value: showingView)
     }
 }
 
 struct DetailedNeedView: View {
     let need: AdditionalNeed
-    @State private var showingView = true
+    @Environment(\.dismiss) private var dismiss  // Add this
     
     var body: some View {
         VStack(spacing: 0) {
             // Header
             HStack {
                 Button("Done") { 
-                    showingView = false 
+                    dismiss()  // Change this
                 }
                 .padding()
                 Spacer()
@@ -1196,8 +1192,6 @@ struct DetailedNeedView: View {
                 .padding()
             }
         }
-        .opacity(showingView ? 1 : 0)
-        .animation(.easeInOut(duration: 0.3), value: showingView)
     }
 }
 
