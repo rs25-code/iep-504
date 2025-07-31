@@ -37,7 +37,7 @@ struct LandingScreen: View {
                 VStack {
                     if videoLoaded, let player = player {
                         VideoPlayer(player: player)
-                            .frame(width: 320, height: 180)
+                            .frame(width: 600, height: 400)
                             .cornerRadius(16)
                             .shadow(radius: 10)
                             .clipped()
@@ -59,7 +59,7 @@ struct LandingScreen: View {
                         // Loading state
                         Rectangle()
                             .fill(Color(.systemGray5))
-                            .frame(width: 320, height: 180)
+                            .frame(width: 600, height: 400)
                             .cornerRadius(16)
                             .overlay(
                                 VStack(spacing: 8) {
@@ -77,7 +77,7 @@ struct LandingScreen: View {
                 VStack(spacing: 16) {
                     Text("Choose your role to get started")
                         .font(.headline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.white)
                         .opacity(showRoles ? 1.0 : 0.0)
                         .animation(.easeInOut(duration: 1.0), value: showRoles)
                     
