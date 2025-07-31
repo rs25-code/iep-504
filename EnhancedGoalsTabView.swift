@@ -68,6 +68,7 @@ enum AssessmentLevel: String, CaseIterable {
 }
 
 // MARK: - Enhanced Goals Tab View (Playgrounds Compatible)
+// MARK: - Fixed Enhanced Goals Tab View
 struct EnhancedGoalsTabView: View {
     @EnvironmentObject var appState: AppState
     @State private var expandedDomains: Set<UUID> = []
@@ -275,7 +276,7 @@ struct EnhancedGoalsTabView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Header with AI Insights
+                // Header with AI Insights  
                 headerSection
                 
                 // Domain Cards
@@ -295,10 +296,10 @@ struct EnhancedGoalsTabView: View {
             .padding()
         }
         .fullScreenCover(item: $selectedArea) { area in
-            DetailedAreaView(area: area)
+            DetailedAreaView(area: area) // Removed the custom dismiss logic
         }
         .fullScreenCover(isPresented: $showingInsights) {
-            AIInsightsView()
+            AIInsightsView() // Removed the custom dismiss logic  
         }
     }
     
@@ -565,14 +566,14 @@ struct AreaSummaryCard: View {
 // MARK: - Detailed Area View
 struct DetailedAreaView: View {
     let area: AssessmentArea
-    @State private var showingView = true
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack(spacing: 0) {
             // Header
             HStack {
                 Button("Done") { 
-                    showingView = false 
+                    dismiss()
                 }
                 .padding()
                 Spacer()
@@ -670,8 +671,6 @@ struct DetailedAreaView: View {
                 .padding()
             }
         }
-        .opacity(showingView ? 1 : 0)
-        .animation(.easeInOut(duration: 0.3), value: showingView)
     }
 }
 
@@ -741,14 +740,14 @@ struct DetailSection: View {
 }
 
 struct AIInsightsView: View {
-    @State private var showingView = true
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack(spacing: 0) {
             // Header
             HStack {
                 Button("Done") { 
-                    showingView = false 
+                    dismiss()
                 }
                 .padding()
                 Spacer()
@@ -756,7 +755,6 @@ struct AIInsightsView: View {
                     .font(.headline)
                     .fontWeight(.semibold)
                 Spacer()
-                // Invisible button for balance
                 Button("") { }
                     .opacity(0)
                     .padding()
@@ -797,8 +795,6 @@ struct AIInsightsView: View {
                 .padding()
             }
         }
-        .opacity(showingView ? 1 : 0)
-        .animation(.easeInOut(duration: 0.3), value: showingView)
     }
 }
 
@@ -913,3 +909,4 @@ struct InsightCard: View {
         .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
 }
+
