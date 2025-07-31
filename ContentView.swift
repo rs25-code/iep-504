@@ -162,71 +162,85 @@ class AppState: ObservableObject {
 struct ContentView: View {
     @StateObject private var appState = AppState()
     
+    // Computed property to determine if we should show sidebar
+    private var shouldShowSidebar: Bool {
+        appState.isLoggedIn && 
+        appState.currentScreen != .landing && 
+        appState.currentScreen != .roleSelection &&
+        appState.currentScreen != .login
+    }
+    
     var body: some View {
-        NavigationSplitView {
-            // Sidebar - only show when logged in and not on landing/role selection screens
-            if appState.isLoggedIn && appState.currentScreen != .landing && appState.currentScreen != .roleSelection {
-                List {
-                    Button("Dashboard") {
-                        appState.navigate(to: .dashboard)
+        Group {
+            if shouldShowSidebar {
+                // Show NavigationSplitView with sidebar for logged-in screens
+                NavigationSplitView {
+                    List {
+                        Button("Dashboard") {
+                            appState.navigate(to: .dashboard)
+                        }
+                        .foregroundColor(appState.currentScreen == .dashboard ? .orange : .primary)
+                        
+                        Button("Upload") {
+                            appState.navigate(to: .upload)
+                        }
+                        .foregroundColor(appState.currentScreen == .upload ? .orange : .primary)
+                        
+                        Button("Analysis") {
+                            appState.navigate(to: .analysis)
+                        }
+                        .foregroundColor(appState.currentScreen == .analysis ? .orange : .primary)
+                        
+                        Button("Q&A") {
+                            appState.navigate(to: .qa)
+                        }
+                        .foregroundColor(appState.currentScreen == .qa ? .orange : .primary)
+                        
+                        Button("Settings") {
+                            appState.navigate(to: .settings)
+                        }
+                        .foregroundColor(appState.currentScreen == .settings ? .orange : .primary)
+                        
+                        Button("Profile") {
+                            appState.navigate(to: .profile)
+                        }
+                        .foregroundColor(appState.currentScreen == .profile ? .orange : .primary)
                     }
-                    .foregroundColor(appState.currentScreen == .dashboard ? .orange : .primary)
-                    
-                    Button("Upload") {
-                        appState.navigate(to: .upload)
-                    }
-                    .foregroundColor(appState.currentScreen == .upload ? .orange : .primary)
-                    
-                    Button("Analysis") {
-                        appState.navigate(to: .analysis)
-                    }
-                    .foregroundColor(appState.currentScreen == .analysis ? .orange : .primary)
-                    
-                    Button("Q&A") {
-                        appState.navigate(to: .qa)
-                    }
-                    .foregroundColor(appState.currentScreen == .qa ? .orange : .primary)
-                    
-                    Button("Settings") {
-                        appState.navigate(to: .settings)
-                    }
-                    .foregroundColor(appState.currentScreen == .settings ? .orange : .primary)
-                    
-                    Button("Profile") {
-                        appState.navigate(to: .profile)
-                    }
-                    .foregroundColor(appState.currentScreen == .profile ? .orange : .primary)
+                    .navigationTitle("SpectrumEdge")
+                    .accentColor(.orange)
+                } detail: {
+                    mainContentView()
                 }
-                .navigationTitle("SpectrumEdge")
-                .accentColor(.orange)
             } else {
-                // Empty sidebar for landing/role selection screens
-                EmptyView()
-            }
-        } detail: {
-            // Main content area
-            switch appState.currentScreen {
-            case .landing:
-                LandingScreen()
-            case .roleSelection:
-                RoleSelectionScreen()
-            case .login:
-                LoginScreen()
-            case .dashboard:
-                DashboardScreen()
-            case .upload:
-                PlaygroundsUploadScreen()
-            case .analysis:
-                AnalysisScreen()
-            case .qa:
-                QAScreen()
-            case .settings:
-                SettingsScreen()
-            case .profile:
-                ProfileScreen()
+                // Show full-screen view for landing, role selection, and login screens
+                mainContentView()
             }
         }
         .environmentObject(appState)
         .accentColor(.orange)
+    }
+    
+    @ViewBuilder
+    private func mainContentView() -> some View {
+        switch appState.currentScreen {
+        case .landing:
+            LandingScreen()
+        case .roleSelection:
+            RoleSelectionScreen()
+        case .login:
+            LoginScreen()
+        case .dashboard:
+            DashboardScreen()
+        case .upload:
+            PlaygroundsUploadScreen()
+        case .analysis:
+            AnalysisScreen()
+        case .qa:
+            QAScreen()
+        case .settings:
+            SettingsScreen()
+        case .profile:
+            ProfileScreen()
+        }
     }
 }
