@@ -55,14 +55,6 @@ struct DashboardScreen: View {
                                 }
                             }
                             .buttonStyle(ActionButtonStyle())
-                            Button(action: { appState.navigate(to: .qa) }) {
-                                HStack {
-                                    Image(systemName: "message")
-                                    Text("Ask AI Questions")
-                                    Spacer()
-                                }
-                            }
-                            .buttonStyle(SecondaryActionButtonStyle())
                         }
                     }
                     
